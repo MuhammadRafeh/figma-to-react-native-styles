@@ -16,6 +16,8 @@ class App extends React.Component {
 
   render() {
     return (
+      <>
+      <h1>Figma Style to React Native</h1>
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
@@ -23,6 +25,7 @@ class App extends React.Component {
         </label>
         <input type="submit" value="Submit" />
       </form>
+      </> 
     );
   }
 }
