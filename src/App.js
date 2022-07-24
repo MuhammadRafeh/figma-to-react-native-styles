@@ -33,6 +33,14 @@ const checkAndProvideProperties = (cssProp, reactNativeProp, value) => {
       `borderStyle: '${values[1]}',`,
       `borderColor: '${values[2]}',`
     )
+  } else if (cssProp === 'background') {
+    if (values.length === 1) { // here we have just background color
+      returnList.push(
+        `backgroundColor: '${values[0]}',`
+      )
+    } else { // Here we have gradient in background
+
+    }
   }
 
   return returnList;
@@ -107,15 +115,9 @@ class App extends React.Component {
     })
     reactNativeStyles.push('}')
 
-    // var txt = "#div-name-1234-characteristic"
-    // var numb = this.parseFloat(state.value);
-    // alert(numb)
     this.setState({
       output: reactNativeStyles
     })
-
-
-
   }
 
   render() {
@@ -137,7 +139,7 @@ class App extends React.Component {
             </button>
           )
         }
-        <p style={{ width: '50%', display: 'flex', backgroundColor: 'green', justifyContent: 'center' }}>
+        <p style={{ width: '50%', display: 'flex', justifyContent: 'center' }}>
           {
             this.state.output.map(item => item)
           }
@@ -148,29 +150,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-// input below lines in text input
-// box-sizing: border-box;
-
-// /* Auto layout */
-
-// display: flex;
-// flex-direction: row;
-// align-items: center;
-// padding: 15px 20px;
-// gap: 15px;
-
-// position: absolute;
-// width: 335px;
-// height: 50px;
-// left: 20px;
-// top: 113px;
-
-// /* Gray/800 */
-
-// background: #1D2939;
-// /* Gray/700 */
-
-// border: 1px solid #344054;
-// border-radius: 50px;
