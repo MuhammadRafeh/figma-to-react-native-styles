@@ -4,6 +4,33 @@ import { stylesReactNative } from './constants';
 
 const reactNativeProperties = Object.keys(stylesReactNative);
 
+const checkAndProvideProperties = (cssProp, reactNativeProp, value) => {
+  let returnList = [];
+  const values = value.split(' ');
+  if ((cssProp === 'padding' || cssProp === 'margin') && values.length > 1) {
+    if (values.length == 2) {
+      returnList.push(
+        `${cssProp}Vertical: ${values[0].match(/\d/g).join("") + ','}`,
+        `${cssProp}Horizontal: ${values[1].match(/\d/g).join("") + ','}`
+      )
+    } else if (values.length == 3) {
+      returnList.push(
+        `${cssProp}Top: ${values[0].match(/\d/g).join("") + ','}`,
+        `${cssProp}Horizontal: ${values[1].match(/\d/g).join("") + ','}`,
+        `${cssProp}Bottom: ${values[2].match(/\d/g).join("") + ','}`
+      )
+    } else if (values.length === 4) {
+      returnList.push(
+        `${cssProp}Top: ${values[0].match(/\d/g).join("") + ','}`,
+        `${cssProp}Right: ${values[1].match(/\d/g).join("") + ','}`,
+        `${cssProp}Bottom: ${values[2].match(/\d/g).join("") + ','}`,
+        `${cssProp}Left: ${values[3].match(/\d/g).join("") + ','}`
+      )
+    }
+  }
+  return returnList;
+}
+
 class App extends React.Component {
   state = {
     value: '',
@@ -36,13 +63,18 @@ class App extends React.Component {
       });
 
       if (isExist === -1) { //Does not Exists (Here we have to perform different steps)
-
+        checkAndProvideProperties(property, reactNativeProp, rightSide)
       } else { // Exists (Here we have to check if value contain space then it means we have to split it and do accordingly
         // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
         let pureRightSide = `'${rightSide}'` + ',';
         if (/\d/.test(rightSide) && (stylesReactNative[reactNativeProp] === 1 || stylesReactNative[reactNativeProp] === 3)) {
           pureRightSide = rightSide.match(/\d/g).join("") + ',';
-        } else if (stylesReactNative[reactNativeProp] === 1 && !(/\d/.test(rightSide))) {
+          if (rightSide.split(' ').length > 1) {
+            const returnCss = checkAndProvideProperties(property, reactNativeProp, rightSide);
+            returnCss.forEach(lineCss => reactNativeStyles.push(lineCss, <br />))
+            return;
+          }
+        } else if (stylesReactNative[reactNativeProp] === 1 && !(/\d/.test(rightSide))) { // the value should be mnbr and the property value does not have number
           return;
         }
         reactNativeStyles[reactNativeProp] = pureRightSide;
