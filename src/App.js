@@ -7,7 +7,7 @@ const reactNativeProperties = Object.keys(stylesReactNative);
 class App extends React.Component {
   state = {
     value: '',
-    output: []
+    output: [] // We'll copy from it
   }
 
   handleChange = (event) => {
@@ -81,3 +81,29 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// input below lines in text input
+// box-sizing: border-box;
+
+// /* Auto layout */
+
+// display: flex;
+// flex-direction: row;
+// align-items: center;
+// padding: 15px 20px;
+// gap: 15px;
+
+// position: absolute;
+// width: 335px;
+// height: 50px;
+// left: 20px;
+// top: 113px;
+
+// /* Gray/800 */
+
+// background: #1D2939;
+// /* Gray/700 */
+
+// border: 1px solid #344054;
+// border-radius: 50px;
