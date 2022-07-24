@@ -27,9 +27,31 @@ const checkAndProvideProperties = (cssProp, reactNativeProp, value) => {
         `${cssProp}Left: ${parseFloat(values[3]) + ','}`
       )
     }
+  } else if (cssProp === 'border' && values.length === 3) {
+    returnList.push(
+      `borderWidth: ${parseFloat(values[0]) + ','}`,
+      `borderStyle: '${values[1]}',`,
+      `borderColor: '${values[2]}',`
+    )
   }
+
   return returnList;
 }
+
+const copyToClipBoard = async copyMe => {
+  let copyString = '';
+  copyMe.forEach(element => {
+    if (typeof (element) === 'string') {
+      copyString += element + '\n';
+    }
+  })
+  try {
+    await navigator.clipboard.writeText(copyString);
+    alert('Done')
+  } catch (err) {
+    alert('Failed')
+  }
+};
 
 class App extends React.Component {
   state = {
@@ -47,7 +69,6 @@ class App extends React.Component {
     // alert('A name was submitted: ' + this.state.value);
     const lines = this.state.value.split('\n');
     const requiredCss = lines.filter(line => line.indexOf(';') != -1);
-    console.log(requiredCss)
 
     const reactNativeStyles = ['{', <br />]
 
@@ -63,7 +84,8 @@ class App extends React.Component {
       });
 
       if (isExist === -1) { //Does not Exists (Here we have to perform different steps)
-        checkAndProvideProperties(property, reactNativeProp, rightSide)
+        const returnCss = checkAndProvideProperties(property, reactNativeProp, rightSide)
+        returnCss.forEach(lineCss => reactNativeStyles.push(lineCss, <br />))
       } else { // Exists (Here we have to check if value contain space then it means we have to split it and do accordingly
         // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
         let pureRightSide = `'${rightSide}'` + ',';
@@ -79,7 +101,6 @@ class App extends React.Component {
         }
         reactNativeStyles[reactNativeProp] = pureRightSide;
         const stringCSS = `${reactNativeProp}: ${pureRightSide}`;
-        console.log(stringCSS, 'adsasd')
         reactNativeStyles.push(stringCSS, <br />);
       }
 
@@ -109,6 +130,13 @@ class App extends React.Component {
             typeof="string" value={this.state.value} onChange={this.handleChange} inputMode={'text'} />
           <input type="submit" value="Convert" style={{ backgroundColor: 'silver', height: 50 }} />
         </form>
+        {
+          this.state.output.length > 1 && (
+            <button onClick={() => copyToClipBoard(this.state.output)}>
+              Copy Text to clipboard
+            </button>
+          )
+        }
         <p style={{ width: '50%', display: 'flex', backgroundColor: 'green', justifyContent: 'center' }}>
           {
             this.state.output.map(item => item)
