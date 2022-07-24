@@ -1,5 +1,5 @@
 // 1 for int and 2 for string 3 both and 4 for object and 5 for array
-export const reactNativeStyles = {
+export const stylesReactNative = {
     "backfaceVisibility": 2,
     "backgroundColor": 2,
     "borderBottomLeftRadius": 1,
