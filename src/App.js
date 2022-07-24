@@ -40,7 +40,7 @@ class App extends React.Component {
       } else { // Exists (Here we have to check if value contain space then it means we have to split it and do accordingly
         // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
         let pureRightSide = `'${rightSide}'` + ',';
-        if (/\d/.test(rightSide)) {
+        if (/\d/.test(rightSide) && (stylesReactNative[reactNativeProp] === 1 || stylesReactNative[reactNativeProp] === 3)) {
           pureRightSide = rightSide.match(/\d/g).join("") + ',';
         }
         reactNativeStyles[reactNativeProp] = pureRightSide;
