@@ -15,6 +15,8 @@ class App extends React.Component {
   }
 
   handleSubmit = (event) => {
+    event.preventDefault();
+
     // alert('A name was submitted: ' + this.state.value);
     const lines = this.state.value.split('\n');
     const requiredCss = lines.filter(line => line.indexOf(';') != -1);
@@ -25,7 +27,7 @@ class App extends React.Component {
     requiredCss.forEach((css) => {
       const bothSides = css.split(':');
       const property = bothSides[0].trim().replace('-', '');
-      const rightSide = bothSides[1].trim().replace(';', ',');
+      const rightSide = bothSides[1].trim().replace(';', '');
 
       let reactNativeProp;
       const isExist = reactNativeProperties.findIndex(prop => {
@@ -37,8 +39,12 @@ class App extends React.Component {
 
       } else { // Exists (Here we have to check if value contain space then it means we have to split it and do accordingly
         // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
-        reactNativeStyles[reactNativeProp] = rightSide;
-        const stringCSS = `${reactNativeProp}: ${rightSide}`;
+        let pureRightSide = `'${rightSide}'` + ',';
+        if (/\d/.test(rightSide)) {
+          pureRightSide = rightSide.match(/\d/g).join("") + ',';
+        }
+        reactNativeStyles[reactNativeProp] = pureRightSide;
+        const stringCSS = `${reactNativeProp}: ${pureRightSide}`;
         console.log(stringCSS, 'adsasd')
         reactNativeStyles.push(stringCSS);
         reactNativeStyles.push(<br />);
@@ -56,7 +62,6 @@ class App extends React.Component {
 
 
 
-    event.preventDefault();
   }
 
   render() {
