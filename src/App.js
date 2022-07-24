@@ -10,21 +10,21 @@ const checkAndProvideProperties = (cssProp, reactNativeProp, value) => {
   if ((cssProp === 'padding' || cssProp === 'margin') && values.length > 1) {
     if (values.length == 2) {
       returnList.push(
-        `${cssProp}Vertical: ${values[0].match(/\d/g).join("") + ','}`,
-        `${cssProp}Horizontal: ${values[1].match(/\d/g).join("") + ','}`
+        `${cssProp}Vertical: ${parseFloat(values[0]) + ','}`,
+        `${cssProp}Horizontal: ${parseFloat(values[1]) + ','}`
       )
     } else if (values.length == 3) {
       returnList.push(
-        `${cssProp}Top: ${values[0].match(/\d/g).join("") + ','}`,
-        `${cssProp}Horizontal: ${values[1].match(/\d/g).join("") + ','}`,
-        `${cssProp}Bottom: ${values[2].match(/\d/g).join("") + ','}`
+        `${cssProp}Top: ${parseFloat(values[0]) + ','}`,
+        `${cssProp}Horizontal: ${parseFloat(values[1]) + ','}`,
+        `${cssProp}Bottom: ${parseFloat(values[2]) + ','}`
       )
     } else if (values.length === 4) {
       returnList.push(
-        `${cssProp}Top: ${values[0].match(/\d/g).join("") + ','}`,
-        `${cssProp}Right: ${values[1].match(/\d/g).join("") + ','}`,
-        `${cssProp}Bottom: ${values[2].match(/\d/g).join("") + ','}`,
-        `${cssProp}Left: ${values[3].match(/\d/g).join("") + ','}`
+        `${cssProp}Top: ${parseFloat(values[0]) + ','}`,
+        `${cssProp}Right: ${parseFloat(values[1]) + ','}`,
+        `${cssProp}Bottom: ${parseFloat(values[2]) + ','}`,
+        `${cssProp}Left: ${parseFloat(values[3]) + ','}`
       )
     }
   }
@@ -68,7 +68,7 @@ class App extends React.Component {
         // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
         let pureRightSide = `'${rightSide}'` + ',';
         if (/\d/.test(rightSide) && (stylesReactNative[reactNativeProp] === 1 || stylesReactNative[reactNativeProp] === 3)) {
-          pureRightSide = rightSide.match(/\d/g).join("") + ',';
+          pureRightSide = parseFloat(rightSide) + ',';
           if (rightSide.split(' ').length > 1) {
             const returnCss = checkAndProvideProperties(property, reactNativeProp, rightSide);
             returnCss.forEach(lineCss => reactNativeStyles.push(lineCss, <br />))
@@ -80,15 +80,14 @@ class App extends React.Component {
         reactNativeStyles[reactNativeProp] = pureRightSide;
         const stringCSS = `${reactNativeProp}: ${pureRightSide}`;
         console.log(stringCSS, 'adsasd')
-        reactNativeStyles.push(stringCSS);
-        reactNativeStyles.push(<br />);
+        reactNativeStyles.push(stringCSS, <br />);
       }
 
     })
     reactNativeStyles.push('}')
 
     // var txt = "#div-name-1234-characteristic"
-    // var numb = this.state.value.match(/\d/g).join("");
+    // var numb = this.parseFloat(state.value);
     // alert(numb)
     this.setState({
       output: reactNativeStyles
