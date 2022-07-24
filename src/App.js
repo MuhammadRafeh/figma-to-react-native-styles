@@ -42,6 +42,8 @@ class App extends React.Component {
         let pureRightSide = `'${rightSide}'` + ',';
         if (/\d/.test(rightSide) && (stylesReactNative[reactNativeProp] === 1 || stylesReactNative[reactNativeProp] === 3)) {
           pureRightSide = rightSide.match(/\d/g).join("") + ',';
+        } else if (stylesReactNative[reactNativeProp] === 1 && !(/\d/.test(rightSide))) {
+          return;
         }
         reactNativeStyles[reactNativeProp] = pureRightSide;
         const stringCSS = `${reactNativeProp}: ${pureRightSide}`;
