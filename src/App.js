@@ -33,9 +33,10 @@ class App extends React.Component {
         return property === prop.toLowerCase();
       });
 
-      if (isExist === -1) { //Does not Exists
+      if (isExist === -1) { //Does not Exists (Here we have to perform different steps)
 
-      } else { // Exists
+      } else { // Exists (Here we have to check if value contain space then it means we have to split it and do accordingly
+        // like padding: 20px 40px its mean we'll converet this in paddingVertical: 20 and padding Horizontal: 40)
         reactNativeStyles[reactNativeProp] = rightSide;
         const stringCSS = `${reactNativeProp}: ${rightSide}`;
         console.log(stringCSS, 'adsasd')
