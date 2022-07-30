@@ -132,7 +132,10 @@ class App extends React.Component {
             typeof="string" value={this.state.value} onChange={this.handleChange} inputMode={'text'} />
           <input type="submit" value="Convert" style={{ backgroundColor: 'silver', height: 50 }} />
         </form>
+{/*checking if the user has entered something or not, if yes then print the result else print nothing*/ }
         {
+        this.state.value!==''?(
+          <div>{
           this.state.output.length > 1 && (
             <button onClick={() => copyToClipBoard(this.state.output)}>
               Copy Text to clipboard
@@ -143,7 +146,7 @@ class App extends React.Component {
           {
             this.state.output.map(item => item)
           }
-        </p>
+        </p></div>): null}
       </>
     );
   }
